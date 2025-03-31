@@ -1,0 +1,19 @@
+html, body {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.gameboard {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    left: 35%;
+    top: 20%;
+    border: 2px black solid;
+    border-radius: 8px;
+}
+
+.boardsquare {
+
+}
