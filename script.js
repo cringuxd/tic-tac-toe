@@ -1,8 +1,18 @@
 //Gameboard: Stored as array within Gameboard object
 
-function createGameboard() {
+const gameboard = document.querySelector(".gameboard");
+
+function createGameboard(game_board) {
     let board = [["-","-","-"],["-","-","-"],["-","-","-"]]; //length 3x3
-    return board;
+    let boardSquares = [[],[],[]]
+    for(let i = 0; i < 3; i++) {
+        for(let j = 0; j < 3; j++) {
+            boardSquares[i][j] = document.createElement("div");
+            boardSquares[i][j].setAttribute("class","boardsquare");
+            game_board.appendChild(boardSquares[i][j]);
+        }
+    }
+    return { board, boardSquares };
     //potentially add modifyGameboard() and viewGameboard() as getter and setter functions
 }
 //Player Object
@@ -47,42 +57,44 @@ function playGame(board) {
         if(i % 2 == 0) {
             modifyBoard = prompt(playerOne.playerName + ", please pick a tile!");
             console.log("first number: " + (Math.floor(modifyBoard / 3)) + " , second number: " + ((modifyBoard % 3)));
-            if(board[Math.floor(modifyBoard / 3)][(modifyBoard % 3)] == "-") {
-                board[Math.floor(modifyBoard / 3)][(modifyBoard % 3)] = playerOne.playerIcon;
+            if(board.board[Math.floor(modifyBoard / 3)][(modifyBoard % 3)] == "-") {
+                board.board[Math.floor(modifyBoard / 3)][(modifyBoard % 3)] = playerOne.playerIcon;
+                board.boardSquares[Math.floor(modifyBoard / 3)][(modifyBoard % 3)].textContent = playerOne.playerIcon;
                 winnerMarker = playerOne.playerIcon;
             }
             else {
                 continue;
             }
-            console.log(board)
+            console.log(board.board)
         }
         else {
             modifyBoard = prompt(playerTwo.playerName + ", please pick a tile!");
             console.log("first number: " + (Math.floor(modifyBoard / 3)) + " , second number: " + ((modifyBoard % 3)));
-            if(board[Math.floor(modifyBoard / 3)][(modifyBoard % 3)] == "-") {
-                board[Math.floor(modifyBoard / 3)][(modifyBoard % 3)] = playerTwo.playerIcon;
+            if(board.board[Math.floor(modifyBoard / 3)][(modifyBoard % 3)] == "-") {
+                board.board[Math.floor(modifyBoard / 3)][(modifyBoard % 3)] = playerTwo.playerIcon;
+                board.boardSquares[Math.floor(modifyBoard / 3)][(modifyBoard % 3)].textContent = playerTwo.playerIcon;
                 winnerMarker = playerTwo.playerIcon;
             }
             else {
                 continue;
             }
-            console.log(board)
+            console.log(board.board)
         }
 
         //Checks for win condition
         //row condition
-        if(isRowEqual(board,(Math.floor(modifyBoard / 3))) === true && board[Math.floor(modifyBoard / 3)][0] != "-") {
+        if(isRowEqual(board.board,(Math.floor(modifyBoard / 3))) === true && board.board[Math.floor(modifyBoard / 3)][0] != "-") {
             break;
         }
         //column condition
-        else if(isColumnEqual(board,(modifyBoard % 3)) === true && board[0][modifyBoard % 3] != "-") {
+        else if(isColumnEqual(board.board,(modifyBoard % 3)) === true && board.board[0][modifyBoard % 3] != "-") {
             break;
         }
         //diagonals
-        else if(board[0][0] == board[1][1] && board[1][1] == board[2][2] && board[1][1] != "-") {
+        else if(board.board[0][0] == board.board[1][1] && board.board[1][1] == board.board[2][2] && board.board[1][1] != "-") {
             break;
         }
-        else if(board[1][1] == board[0][2] && board[1][1] == board[2][0] && board[1][1] != "-") {
+        else if(board.board[1][1] == board.board[0][2] && board.board[1][1] == board.board[2][0] && board.board[1][1] != "-") {
             break;
         }
         /*
@@ -105,5 +117,4 @@ function playGame(board) {
     }
 
 }
-
-playGame(createGameboard());
+playGame(createGameboard(gameboard));
